@@ -1,51 +1,40 @@
 <template>
-<div id="player-score-edit">
-  <span class="player-name-header">
-    Name
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-input-header">
-    Mil
-  </span>
-  <span class="score-total-header">
+<thead id="player-score-edit">
+  <tr>
+    <th class="player">
+      Name
+    </th>
+    <th class="score-input-header background-dark"
+        v-for="category in gameConfig.getCategories()"
+        v-bind:class="[category.id]">        
+      {{ category.toString() }}
+    </th>
+    <th class="score-total-header">
     Total
-  </span>
-</div>
+  </th>
+  </tr>
+</thead>
 </template>
 
 <script>
 export default {
     name: 'player-score-header',
+    inject: ['gameConfig'],
+    data: () => { return {
+    }; }
 }
 </script>
 
 <style scoped lang="scss">
-.player-name-header {
-    width: 10em;
-    display: inline-block;
-}
+@import '../styles/wonder-styles';
+
 .score-input-header {
     width: 4em;
-    display: inline-block;
     text-align: center;
+    color: white;
 }
 .score-total-header {
     width: 4em;
-    display: inline-block;
     text-align: center;
 }
 </style>

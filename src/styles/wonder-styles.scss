@@ -1,0 +1,19 @@
+@import 'variables';
+
+@each $stage,$primarycolor in $stagecolors-primary {
+    .#{$stage}.background-primary {
+        background-color: $primarycolor;
+    }
+}
+
+@each $stage,$primarycolor in $stagecolors-primary {
+    .#{$stage}.background-light {
+        background-color: desaturate(lighten($primarycolor, 30), 0);
+    }
+}
+
+@each $stage,$primarycolor in $stagecolors-primary {
+    .#{$stage}.background-dark {
+        background-color: saturate(darken($primarycolor, 10), 20);
+    }
+}
