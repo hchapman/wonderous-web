@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Wonderous from './Wonderous.vue';
+import './registerServiceWorker'
 
 /*Vue.component('button-counter', {
     data: () => {

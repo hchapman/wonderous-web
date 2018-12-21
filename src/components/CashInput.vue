@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import {CashScore} from "../logic/ScoreDatum.js";
+import {CoinScore} from "../logic/ScoreDatum.js";
 
 export default {
     name: 'cash-input',
-    props: {cash: CashScore},
+    props: {cash: CoinScore},
 }
 </script>
 

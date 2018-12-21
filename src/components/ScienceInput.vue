@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="science-input-container">
     <input type='number'
            max="10"
            min="0"
@@ -38,6 +38,9 @@ export default {
 }
 input.science-input {
     width: 2em;
+}
+.science-input-container {
+    white-space: nowrap;
 }
 .score-total {
     width: 4em;
