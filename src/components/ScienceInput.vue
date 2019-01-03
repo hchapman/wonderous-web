@@ -3,22 +3,22 @@
     <input type='number'
            max="10"
            min="0"
-           class="science-input"
+           class="score-input science-input science-a"
            v-model.number="science.valueA">
     <input type='number'
            max="10"
            min="0"
-           class="science-input"
+           class="score-input science-input science-b"
            v-model.number="science.valueB">
     <input type='number'
            max="10"
            min="0"
-           class="science-input"
+           class="score-input science-input science-c"
            v-model.number="science.valueC">
     <input type='number'
            max="10"
            min="0"
-           class="science-input"
+           class="score-input science-input science-wild"
            v-model.number="science.valueW">
   </div>
 </template>

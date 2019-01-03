@@ -1,8 +1,12 @@
 <template>
 <div id="wonderous-app">
+  <appbar
+    v-bind:categories="gameConfig.getCategories()"
+    v-bind:currentTab="currentTab">
+  </appbar>
   <category-tabs
     v-bind:categories="gameConfig.getCategories()"
-    v-on:tab-selected="scoreFlik.selectCell('.'+$event)">
+    v-on:tab-selected="changeTab($event)">
   </category-tabs>
   <div class="score-sheet-container">
     <player-name-column
@@ -25,7 +29,6 @@
       </total-score-column>
     </div>
   </div>
-  <br>
   <add-player v-on:add-player="players.push($event)"></add-player>
 </div>
 </template>
@@ -37,6 +40,7 @@ import PlayerNameColumn from "./components/PlayerNameColumn.vue";
 import EditScoreColumn from "./components/EditScoreColumn.vue";
 import TotalScoreColumn from "./components/TotalScoreColumn.vue";
 import CategoryTabs from "./components/CategoryTabs.vue";
+import Appbar from "./components/Appbar.vue";
 import AddPlayer from "./components/AddPlayer.vue";
 
 import 'tiny-slider/dist/tiny-slider.css';
@@ -53,6 +57,7 @@ export default {
             message: "Hello!!",
             players: [new Player("Harrison", config.getWonders()[0])],
             gameConfig: config,
+            currentTab: "military",
         };
     },
     components: {
@@ -61,10 +66,18 @@ export default {
         TotalScoreColumn,
         CategoryTabs,
         AddPlayer,
+        Appbar,
+    },
+    methods: {
+        changeTab: function(event) {
+            console.log(event);
+            //this.currentTab = event;
+            this.scoreFlik.selectCell('.'+event);
+        },
     },
     provide: function() {
         return {
-            gameConfig: this.gameConfig
+            gameConfig: this.gameConfig,
         };
     },
     watch: {
@@ -78,7 +91,13 @@ export default {
         this.$nextTick(function() {
             this.scoreFlik = new Flickity( this.$refs.editScoresSlider, {
                 cellAlign: 'left',
-                watchCSS: true
+                watchCSS: true,
+                prevNextButtons: false,
+                pageDots: false,
+            });
+            let $self = this;
+            this.scoreFlik.on('change', function(index) {
+                $self.currentTab = this.cells[index].element.dataset['category'];
             });
             this.scoreFlik.resize();
             return;
@@ -104,6 +123,8 @@ export default {
 #wonderous-app, body {
     padding: 0;
     margin: 0;
+    
+    font-family: Helvetica, sans-serif;
 }
 
 .score-sheet-container {
@@ -123,18 +144,23 @@ export default {
         content: 'flickity';
         display: none;
     }
-
+    
     @media screen and (min-width: 900px) {
         &:after {
             content: '';
         }
-
+        
         overflow: auto;
         display: flex;
         flex-direction: row;
         flex-grow: 2;
     }
     flex-grow: 5;
+}
+
+.flickity-button {
+    background: none;
+    top: 1.3em;
 }
 
 .score-sheet-scores {

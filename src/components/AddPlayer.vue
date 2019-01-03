@@ -1,6 +1,9 @@
 <template>
-<div id="add-player">
-  <input v-model="player.name">
+<div
+  id="add-player"
+  class="add-player-bar">
+  <input v-model="player.name"
+         placeholder="Player Name">
   <select v-model="player.wonder">
     <option disabled value="">Choose Wonder</option>
     <option v-for="wonder in gameConfig.getWonders()" v-bind:value="wonder">{{ wonder.toString() }}</option>
@@ -28,4 +31,13 @@ export default {
 </script>
 
 <style lang="scss">
+.add-player-bar {
+    background-color: #aaa;
+    height: 3rem;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+
 </style>

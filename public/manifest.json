@@ -1,6 +1,6 @@
 {
-  "name": "wonderous-web",
-  "short_name": "wonderous-web",
+  "name": "Wonderous, a 7 Wonders Score Sheet",
+  "short_name": "Wonderous",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

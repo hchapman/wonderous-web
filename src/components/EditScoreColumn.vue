@@ -1,12 +1,14 @@
 <template>
 <div
-  class="edit-score-column sheet-column">
+  class="edit-score-column sheet-column"
+  v-bind:data-category="category.id">
   <div class="player-score header-row background-dark"
        v-bind:class="category.id">{{ category.toString() }}</div>
   <div class="player-score player-row background-light"
        v-bind:class="category.id"
        v-for="player in players">
-    <div class="score-input">
+    <div class="score-input-container"
+         v-bind:class="category.id">
     <ScienceInput
       v-if="category.id == 'science'"
       v-bind:science="player.scores[category.id]"></ScienceInput>
@@ -52,7 +54,7 @@ export default {
         flex-shrink: 0;
         flex-grow: 1;
     }
-
+    
     width: 100%;
     flex-grow: 100;
 }
@@ -63,10 +65,21 @@ export default {
     justify-content: center;
 }
 
-.score-input {
+.score-input-container {
+    @each $stage,$primarycolor in $stagecolors-primary {
+        &.#{$stage} input {
+            background-color: desaturate(lighten($primarycolor, 40), 0);
+        }
+    }
+}
+
+.score-input-container {
     input {
         width: 100%;
         text-align: center;
+        border: 1px solid rgba(0,0,0,0.2);
+        font-size: 1.2em;
+        vertical-align: center;
     }
     margin: auto;
 }
