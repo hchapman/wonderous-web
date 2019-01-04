@@ -7,7 +7,7 @@
       v-bind:category="category"
       v-for="category in categories">
       <a
-        v-bind:href="'/#'+category.id"
+        v-bind:href="'#'+category.id"
         v-on:click="selectTab(category.id, $event); $emit('tab-selected', category.id); return false;">
         {{ category.toString() }}
       </a>
