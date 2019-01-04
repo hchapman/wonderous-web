@@ -1,6 +1,6 @@
 <template>
 <div class="appbar-container">
-  <div class="appbar background-primary"
+  <div class="appbar background-dark"
        v-bind:class="currentTab">
     <a class="title">
       Wonderous

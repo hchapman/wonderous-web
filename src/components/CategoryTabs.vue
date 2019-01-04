@@ -1,17 +1,19 @@
 <template>
 <div class="category-tabs">
   <div class="tabs-container">
-    <div
+    <a
       class="tab background-primary"
       v-bind:class="[category.id, currentCategory == category.id ? 'tab-selected' : '']"
       v-bind:category="category"
-      v-for="category in categories">
-      <a
-        v-bind:href="'#'+category.id"
-        v-on:click="selectTab(category.id, $event); $emit('tab-selected', category.id); return false;">
-        {{ category.toString() }}
-      </a>
-    </div>
+      v-for="category in categories"
+      v-bind:href="'#'+category.id"
+      v-on:click="selectTab(category.id, $event); $emit('tab-selected', category.id); return false;">
+      {{ category.toString() }}
+    </a>
+    <a
+      class="tab background-primary">
+      Total
+    </a>
   </div>
 </div>
 </template>
@@ -38,6 +40,10 @@ export default {
 @import '../styles/wonder-styles';
 
 .category-tabs {
+    @media screen and (min-width: 900px) {
+        display: none;
+    }
+    overflow-y: hidden;
     overflow-x: hidden;
     display: block;
     width: 100%;
@@ -48,7 +54,7 @@ export default {
 }
 
 .tabs-container {
-    div.tab {
+    a.tab {
         @each $stage,$primarycolor in $stagecolors-primary {
             &.#{$stage}.tab-selected {
                 background-color: saturate(darken($primarycolor, 10), 20);
@@ -61,14 +67,14 @@ export default {
         justify-content: center;
         text-align: center;
         flex: 1 1 auto;
-        a {
-            text-decoration: none;
-            color: white;
-            text-shadow: 0 0 3px $text-shadow-color;
-            padding: 0rem 1rem;
-            font-size: 0.8rem
-        }
-        
+
+        text-decoration: none;
+        color: white;
+        text-shadow: 0 0 3px $text-shadow-color;
+
+        padding: 0rem 1rem;
+        font-size: 0.8rem;
+
         transition-property: background-color;
         transition-duration: 0.5s;    
     }
