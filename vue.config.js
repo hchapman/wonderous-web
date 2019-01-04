@@ -1,5 +1,11 @@
 // const path = require('path');
 
+module.exports = {
+    baseUrl: process.env.NODE_ENV === 'production'
+        ? '/wonderous-web/'
+        : '/'
+}
+
 // module.exports = {
 //     chainWebpack: config => {
 //         const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
