@@ -2,52 +2,30 @@
 <div id="wonderous-app">
   <appbar
     v-bind:categories="gameConfig.getCategories()"
-    v-bind:currentTab="currentTab">
+    v-bind:currentTab="currentTab"
+    v-on:open-drawer="toggleDrawer()">
   </appbar>
-  <category-tabs
-    v-bind:categories="gameConfig.getCategories()"
-    v-on:tab-selected="changeTab($event)">
-  </category-tabs>
-  <div class="score-sheet-container">
-    <player-name-column
-      v-bind:players="players">
-    </player-name-column>
-    <div class="score-sheet-scores">
-      <div
-        class="score-sheet-edit-scores"
-        ref="editScoresSlider">
-        <edit-score-column
-          v-for="category in gameConfig.getCategories()"
-          v-bind:key="category.id"
-          v-bind:players="players"
-          v-bind:category="category"
-          v-bind:class="category.id">
-        </edit-score-column>
-      </div>
-      <total-score-column
-        v-bind:players="players">
-      </total-score-column>
-    </div>
+  <div class="mdc-top-app-bar--fixed-adjust">
+    <drawer
+      v-bind:open.sync="isDrawerOpen">
+      <list-item
+        icon="inbox">Inbox</list-item>
+    </drawer>
+    <score-sheet></score-sheet>
   </div>
-  <add-player v-on:add-player="players.push($event)"></add-player>
+</div>
 </div>
 </template>
 
 <script>
 import Player from "./logic/Player.js";
 import GameConfig from "./logic/GameConfig.js";
-import PlayerNameColumn from "./components/PlayerNameColumn.vue";
-import EditScoreColumn from "./components/EditScoreColumn.vue";
-import TotalScoreColumn from "./components/TotalScoreColumn.vue";
-import CategoryTabs from "./components/CategoryTabs.vue";
+
 import Appbar from "./components/Appbar.vue";
-import AddPlayer from "./components/AddPlayer.vue";
+import Drawer from "./components/Drawer.vue";
+import ListItem from "./components/ListItem.vue";
+import ScoreSheet from "./components/ScoreSheet.vue";
 
-import 'tiny-slider/dist/tiny-slider.css';
-import {tns} from "tiny-slider/src/tiny-slider";
-
-import 'flickity/dist/flickity.min.css';
-import Flickity from 'flickity';
 
 let config = new GameConfig();
 export default {
@@ -55,24 +33,25 @@ export default {
     data: function() {
         return {
             message: "Hello!!",
-            players: [new Player("Harrison", config.getWonders()[0])],
             gameConfig: config,
             currentTab: "military",
+            isDrawerOpen: false,
         };
     },
     components: {
-        PlayerNameColumn,
-        EditScoreColumn,
-        TotalScoreColumn,
-        CategoryTabs,
-        AddPlayer,
         Appbar,
+        Drawer,
+        ListItem,
+        ScoreSheet,
     },
     methods: {
         changeTab: function(event) {
             console.log(event);
             //this.currentTab = event;
             this.scoreFlik.selectCell('.'+event);
+        },
+        toggleDrawer: function() {
+            this.isDrawerOpen = !this.isDrawerOpen;
         },
     },
     provide: function() {
@@ -88,43 +67,20 @@ export default {
         }
     },
     mounted: function() {
-        this.$nextTick(function() {
-            this.scoreFlik = new Flickity( this.$refs.editScoresSlider, {
-                cellAlign: 'left',
-                watchCSS: true,
-                prevNextButtons: false,
-                pageDots: false,
-            });
-            let $self = this;
-            this.scoreFlik.on('change', function(index) {
-                $self.currentTab = this.cells[index].element.dataset['category'];
-            });
-            this.scoreFlik.resize();
+        this.$nextTick(function() {          
             return;
-            this.scoreSlider = tns({
-                container: this.$refs.editScoresSlider,
-                items: 1,
-                loop: false,
-                nav: false,
-                controls: false,
-                autoWidth: false,
-                responsive: {
-                    700: {
-                        disable: true,
-                    },
-                }
-            });
         });
     },
 };
 </script>
 
 <style lang="scss">
+@import "@material/drawer/mdc-drawer";
+@import "@material/list/mdc-list";
+
 #wonderous-app, body {
     padding: 0;
     margin: 0;
-    
-    font-family: Helvetica, sans-serif;
 }
 
 .score-sheet-container {

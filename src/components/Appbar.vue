@@ -1,16 +1,23 @@
 <template>
-<div class="appbar-container">
-  <div class="appbar background-dark"
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+  <div class="wnd-appbar">
+  <div class="mdc-top-app-bar__row"
        v-bind:class="currentTab">
-    <a class="title">
-      Wonderous
-    </a>
-    <i class="fas fa-sliders-h action-icon"></i>
+    <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+      <a href="#"
+         class="material-icons mdc-top-app-bar__navigation-icon"
+         @click="$emit('open-drawer')">menu</a>
+      <span class="mdc-top-app-bar__title">Wonderous</span>
+    </section>
   </div>
-</div>
+  </div>
+  <slot></slot>
+</header>
 </template>
 
 <script>
+import {MDCTopAppBar} from '@material/top-app-bar/index';
+
 export default {
     name: 'appbar',
     data: function() {
@@ -23,7 +30,12 @@ export default {
         selectTab: function(id, event) {
             this.currentCategory = id
         },
-    }
+    },
+    mounted: function() {
+        // Instantiation
+        this.topAppBarElement = document.querySelector('.mdc-top-app-bar');
+        this.topAppBar = new MDCTopAppBar(this.topAppBarElement);
+    },
 }
 </script>
 
@@ -31,10 +43,28 @@ export default {
 @import '../styles/_variables';
 @import '../styles/wonder-styles';
 
+@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/elevation/mdc-elevation";
+
+.mdc-top-app-bar--fixed, .mdc-top-app-bar--fixed-scrolled {
+    @include mdc-elevation(2);
+}
+
+.mdc-top-app-bar__row {
+    @each $stage,$primarycolor in $stagecolors-primary {
+        &.#{$stage} {
+            transition-property: background-color;
+            transition-duration: 0.5s;
+            @include mdc-top-app-bar-fill-color($primarycolor);
+        }
+    }
+}
+
 .appbar {
+    @include mdc-elevation(2);
     overflow-x: hidden;
     width: 100%;
-    box-shadow: 0px 0px 3px black;
+    
     position: relative;
     z-index: 10;
     transition-property: background-color;

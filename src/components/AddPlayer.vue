@@ -31,12 +31,17 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@material/elevation/mdc-elevation";
+
 .add-player-bar {
+    @include mdc-elevation(2);
+
     background-color: #aaa;
     height: 3rem;
     width: 100%;
     position: fixed;
     bottom: 0;
+    z-index: 1;
 }
 
 

@@ -1,9 +1,16 @@
-// const path = require('path');
+const path = require('path');
 
 module.exports = {
     baseUrl: process.env.NODE_ENV === 'production'
         ? '/wonderous-web/'
-        : '/'
+        : '/',
+    css: {
+        loaderOptions: {
+            sass: {
+                includePaths: [path.resolve(__dirname, "node_modules")],
+            },
+        },
+    },
 }
 
 // module.exports = {
