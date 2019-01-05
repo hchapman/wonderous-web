@@ -61,8 +61,9 @@ export default {
     methods: {
         changeTab: function(event) {
             console.log(event);
-            //this.currentTab = event;
+            this.currentTab = event;
             this.scoreFlik.selectCell('.'+event);
+            this.$emit('update:category', event);
         },
     },
     watch: {
@@ -83,6 +84,7 @@ export default {
             let $self = this;
             this.scoreFlik.on('change', function(index) {
                 $self.currentTab = this.cells[index].element.dataset['category'];
+                $self.$emit('update:category', $self.currentTab);
             });
             this.scoreFlik.resize();
             

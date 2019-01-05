@@ -2,7 +2,7 @@
 <div id="wonderous-app">
   <appbar
     v-bind:categories="gameConfig.getCategories()"
-    v-bind:currentTab="currentTab"
+    v-bind:currentTab="themeClass"
     v-on:open-drawer="toggleDrawer()">
   </appbar>
   <div class="mdc-top-app-bar--fixed-adjust">
@@ -11,7 +11,8 @@
       <list-item
         icon="inbox">Inbox</list-item>
     </drawer>
-    <score-sheet></score-sheet>
+    <score-sheet
+      v-on:update:category="themeClass = $event"></score-sheet>
   </div>
 </div>
 </div>
@@ -34,8 +35,8 @@ export default {
         return {
             message: "Hello!!",
             gameConfig: config,
-            currentTab: "military",
             isDrawerOpen: false,
+            themeClass: "military",
         };
     },
     components: {

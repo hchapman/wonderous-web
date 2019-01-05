@@ -20,6 +20,8 @@
 import {MDCModalDrawerFoundation} from '@material/drawer';
 import {MDCListFoundation} from '@material/list';
 
+import {createFocusTrapInstance} from '@material/drawer/util';
+
 export default {
     name: 'drawer',
     data: function() {
@@ -44,7 +46,9 @@ export default {
     },
     mounted: function() {
         // Instantiation
-        this.drawer_ = this.$refs['drawer-root']
+        this.drawer_ = this.$refs['drawer-root'];
+        
+        this.focusTrap_ = createFocusTrapInstance(this.drawer_);
 
         this.foundation = new MDCModalDrawerFoundation({
             addClass: className => {
@@ -75,8 +79,12 @@ export default {
                     activeNavItemEl.focus();
                 }
             },
-            trapFocus: () => {},
-            releaseFocus: () => {},
+            trapFocus: () => {
+                this.focusTrap_.activate();
+            },
+            releaseFocus: () => {
+                this.focusTrap_.deactivate();
+            },
             notifyOpen: () => {
                 this.$emit('update:open', true)
                 this.$emit('open')
@@ -102,28 +110,19 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/_variables';
+@import '../styles/variables';
 @import '../styles/wonder-styles';
 
-@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/drawer/mdc-drawer";
+@import "@material/top-app-bar/_variables";
 @import "@material/elevation/mdc-elevation";
 
 .mdc-drawer-scrim.mdc-drawer-top-bar--fixed-adjust {
-    top: 56px;
-}
-
-.mdc-top-app-bar--fixed, .mdc-top-app-bar--fixed-scrolled {
-    @include mdc-elevation(2);
-}
-
-.mdc-top-app-bar__row {
-    @each $stage,$primarycolor in $stagecolors-primary {
-        &.#{$stage} {
-            transition-property: background-color;
-            transition-duration: 0.5s;
-            @include mdc-top-app-bar-fill-color($primarycolor);
-        }
+    @media (max-width: $mdc-top-app-bar-mobile-breakpoint) {
+        top: $mdc-top-app-bar-mobile-row-height;
     }
+
+    top: $mdc-top-app-bar-row-height;
 }
 
 .appbar {
